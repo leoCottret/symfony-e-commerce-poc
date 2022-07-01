@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <h1>Inscription</h1>
+
+    <!-- Create form with the form method, and inject the form variable from RegisterController -->
+    <!-- The RegisterType defines which values are generated -->
+    {{ form(form) }}
+
+{% endblock %}
