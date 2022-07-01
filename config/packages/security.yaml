@@ -6,23 +6,31 @@ security:
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         users_in_memory: { memory: null }
+    # activate or not security
     firewalls:
+        # for dev
         dev:
+            # don't activate security if route contains this
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            # a new user is anonymous by default
+            anonymous: true
             lazy: true
+            # check what's in the variable users_in_memory, defined a few line above
             provider: users_in_memory
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
             # https://symfony.com/doc/current/security/impersonating_user.html
+            # to be able to connect, as an admin, as an other user
             # switch_user: true
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        # you need the admin role to access the route below
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
