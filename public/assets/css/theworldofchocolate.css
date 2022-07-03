@@ -1,0 +1,16 @@
+/* NAVBAR */
+.navbar-item-custom, .navbar-item-custom a {
+    color: #fff;
+}
+
+/* FOOTER */
+.footer-custom {
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    background-color: #99460a;
+    color: #fff;
+    padding-top: 25px;
+    margin-right: 0;
+    max-width: 100%;
+}
