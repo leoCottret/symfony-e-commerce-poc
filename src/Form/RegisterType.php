@@ -20,21 +20,30 @@ class RegisterType extends AbstractType
         $builder
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
-                'constraints' => new Length(null, 2, 50),
+                'constraints' => new Length([
+                    "min" => 2,
+                    "max" => 50
+                ]),
                 'attr'  => [
                     'placeholder' => 'Saisissez votre prénom'
                 ]
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'Nom',
-                'constraints' => new Length(null, 2, 50),
+                'constraints' => new Length([
+                    "min" => 2,
+                    "max" => 50
+                ]),
                 'attr'  => [
                     'placeholder' => 'Saisissez votre nom'
                 ]
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
-                'constraints' => new Length(null, 2, 100),
+                'constraints' => new Length([
+                    "min" => 2,
+                    "max" => 100
+                ]),
                 'attr'  => [
                     'placeholder' => 'Saisissez une adresse mail valide'
                 ]
@@ -46,10 +55,17 @@ class RegisterType extends AbstractType
                 'invalid_message'   => 'Le mot de passe et sa confirmation doivent être identique',
                 'label' => 'Mot de passe',
                 'required'  => true,
-                'first_options'     => ['label' => 'Mot de passe'],
-                'second_options'    => ['label' => 'Confirmation mot de passe'],
-                'attr'  => [
-                    'placeholder' => 'Saisissez une mot de passe fort'
+                'first_options'     => [
+                    'label' => 'Mot de passe',
+                    'attr'  => [
+                        'placeholder' => 'Saisissez votre mot de passe'
+                    ]
+                ],
+                'second_options'     => [
+                    'label' => 'Confirmation mot de passe',
+                    'attr'  => [
+                        'placeholder' => 'Confirmez votre mot de passe'
+                    ]
                 ]
             ])
             // Replaced by RepeatedType
