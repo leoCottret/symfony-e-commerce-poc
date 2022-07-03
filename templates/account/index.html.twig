@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte - Le monde du chocolat{% endblock %}
+
+{% block content %}
+    <h1>Mon compte</h1>
+    Bienvenue {{ app.user.firstname }} dans votre compte. <br> C'est dans cet espace que vous allez pouvoir gérer votre compte.
+    <!-- {{ dump(app.user) }} // display user properties -->
+{% endblock %}

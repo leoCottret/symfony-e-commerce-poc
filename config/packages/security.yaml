@@ -40,7 +40,7 @@ security:
     access_control:
         # you need the admin role to access the route below
         # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/account, roles: ROLE_USER }
 
 when@test:
     security:
