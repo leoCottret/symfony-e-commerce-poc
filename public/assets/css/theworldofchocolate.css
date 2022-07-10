@@ -3,6 +3,31 @@
     color: #fff;
 }
 
+/* Products */
+
+.product-item {
+    display: inline-block;
+}
+
+.product-item h5 {
+    text-transform: uppercase;
+    font-size: 15px;
+    margin-bottom: 1px;
+}
+
+.product-item .product-subtitle {
+    font-size: 14px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.product-item .product-price {
+    font-size: 15px;
+    font-weight: bold;
+    display: block;
+}
+
+
 /* FOOTER */
 .footer-custom {
     text-align: center;
