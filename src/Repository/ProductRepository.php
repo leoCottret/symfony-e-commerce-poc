@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Classe\Search;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -37,6 +38,36 @@ class ProductRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    /**
+     * Get products depending on user search
+     * @return Product[]
+     */
+    public function findWithSearch(Search $search) 
+    {
+        $query = $this
+            ->createQueryBuilder('p')
+            ->select('c', 'p')
+            ->join('p.category', 'c');
+
+        if (!empty($search->categories)) {
+            $query = $query
+                ->andWhere('c.id IN (:categories)')
+                ->setParameter('categories', $search->categories);
+        }
+
+        if (!empty($search->string)) {
+            $query = $query
+                ->andWhere('p.name LIKE :string')
+                // addcslashes to avoid wildcard injections https://stackoverflow.com/questions/2843009/how-to-escape-like-var-with-doctrine/7893670#7893670
+                // because weirldy enough, Doctrine doesn't sanitize wildcards by default
+                // which can lead to information disclosure or DDoS
+                // can be verified with ->setParameter('string', $search->string) and "%" value
+                ->setParameter('string', '%'.addcslashes($search->string, '%_').'%');
+        }
+
+        return $query->getQuery()->getResult();
     }
 
 //    /**
