@@ -17,9 +17,26 @@ public function __construct(EntityManagerInterface $em)
     $this->em = $em;
 }
 
+    /**
+     * @Route("/product/{slug}", name="product")
+     */
+    public function show($slug): Response
+    {
+        $product = $this->em->getRepository(Product::class)->findOneBySlug($slug);
+
+        // if product doesn't exist, redirect to products
+        if (!$product) {
+            return $this->redirectToRoute('products');
+        }
+    
+        return $this->render('product/show.html.twig', [
+            'product' => $product
+        ]);
+    }
+
 
     /**
-     * @Route("/products", name="app_product")
+     * @Route("/products", name="products")
      */
     public function index(): Response
     {

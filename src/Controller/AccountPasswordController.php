@@ -21,7 +21,7 @@ class AccountPasswordController extends AbstractController
     }
 
     /**
-     * @Route("/account/edit-password", name="app_account_password")
+     * @Route("/account/edit-password", name="account_password")
      */
     public function index(Request $request, UserPasswordHasherInterface $encoder): Response
     {

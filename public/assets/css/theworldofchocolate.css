@@ -27,6 +27,11 @@
     display: block;
 }
 
+/* Product */
+.product-price-single {
+    font-size: 19px;
+    font-weight: bold;
+}
 
 /* FOOTER */
 .footer-custom {

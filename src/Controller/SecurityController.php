@@ -10,13 +10,13 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="app_login")
+     * @Route("/login", name="login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // if user is already connected, redirect him to this route
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_account');
+            return $this->redirectToRoute('account');
         }
 
         // get the login error if there is one
@@ -28,7 +28,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/logout", name="app_logout")
+     * @Route("/logout", name="logout")
      */
     public function logout(): void
     {
