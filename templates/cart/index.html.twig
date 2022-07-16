@@ -5,39 +5,59 @@
 {% block content %}
     <h1>Mon panier</h1>
 
-    <table class="table mt-3">
-        <thead>
-            <tr>
-            <th scope="col">Produit</th>
-            <th scope="col"></th>
-            <th scope="col">Quantité</th>
-            <th scope="col">Prix</th>
-            <th scope="col">Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% set total = null %}
-            {% for choice in cart %}
-            <tr>
-                <th>
-                    <img src="/uploads/{{ choice.product.illustration }}" alt="{{ choice.product.name }}" height="75px">
-                </th>
-                <td>
-                    {{ choice.product.name }}<br>
-                    <small>{{ choice.product.subtitle }}</small>
-                </td>
-                <td>x {{ choice.quantity }}</td>
-                <td>{{ (choice.product.price / 100)|number_format(2) }} €</td>
-                <td>{{ (choice.product.price * choice.quantity / 100)|number_format(2) }} €</td>
-            </tr>
-                {% set total = total + (choice.product.price * choice.quantity) %}
-            {% endfor %}
-        </tbody>
-    </table>
-    <div class="text-right mb-5">
-        <b>Nombre de produits :</b> {{ cart|length }}<br>
-        <b>Total de mon panier :</b> {{ (total / 100)|number_format(2) }} €
-        <a href="" class="btn btn-success btn-block mt-2 w-25 mx-auto">Valider mon panier</a>
-    </div>
+    {% if cart|length > 0%}
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                <th scope="col">Produit</th>
+                <th scope="col"></th>
+                <th scope="col">Quantité</th>
+                <th scope="col">Prix</th>
+                <th scope="col">Total</th>
+                <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set total = null %}
+                {% for choice in cart %}
+                <tr>
+                    <th>
+                        <img src="/uploads/{{ choice.product.illustration }}" alt="{{ choice.product.name }}" height="75px">
+                    </th>
+                    <td>
+                        {{ choice.product.name }}<br>
+                        <small>{{ choice.product.subtitle }}</small>
+                    </td>
+                    <td>
+                        <a href="{{ path('decrease_from_cart', { 'id' : choice.product.id}) }}">
+                            <img src="{{ asset('assets/img/minus.png') }}" height="18px" alt="Retirer une quantité à mon produit">
+                        </a>
+                        x {{ choice.quantity }}
+                        <a href="{{ path('add_to_cart', { 'id' : choice.product.id}) }}">
+                            <img src="{{ asset('assets/img/plus.png') }}" height="18px" alt="Ajouter une quantité à mon produit">
+                        </a>
+                    </td>
+                    <td>{{ (choice.product.price / 100)|number_format(2) }} €</td>
+                    <td>{{ (choice.product.price * choice.quantity / 100)|number_format(2) }} €</td>
+                    <td>
+                        <a href="{{ path('delete_choice_from_cart', { 'id' : choice.product.id}) }}">
+                            <img src="{{ asset('assets/img/trash.png') }}" height="18px" alt="Supprimer mon produit">
+                        </a>
+                    </td>
+                </tr>
+                    {% set total = total + (choice.product.price * choice.quantity) %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-right mb-5">
+            <b>Nombre de produits :</b> {{ cart|length }}<br>
+            <b>Total de mon panier :</b> {{ (total / 100)|number_format(2) }} €
+            <a href="" class="btn btn-success btn-block mt-2 w-25 mx-auto">Valider mon panier</a>
+        </div>
+    {% else %}
+        <hr>
+        <p><b>Votre panier est vide!</b></p>
+    {% endif %}
+    
 
 {% endblock %}
