@@ -48,6 +48,13 @@ body {
     font-weight: bold;
 }
 
+/* Login */
+.block-small {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+
 /* FOOTER */
 .footer-custom {
     text-align: center;

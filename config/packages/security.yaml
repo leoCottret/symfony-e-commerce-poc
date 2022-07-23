@@ -24,7 +24,10 @@ security:
             provider: app_user_provider
             custom_authenticator: App\Security\LoginFormAuthenticator
             logout:
-                path: app_logout
+                path:   /logout
+                target: /
+                invalidate_session: true
+
                 # where to redirect after logout
                 # target: app_any_route
 
@@ -41,6 +44,7 @@ security:
         # you need the admin role to access the route below
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/account, roles: ROLE_USER }
+        - { path: ^/order, roles: ROLE_USER }
 
 when@test:
     security:

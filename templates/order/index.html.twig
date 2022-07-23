@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Valider ma commande - {{ brand_name }}{% endblock %}
+
+{% block content %}
+    <h2>Je passe ma commande</h2>
+    <p>Choisissez vos préférences avant de passer votre commande sur {{ brand_name }}</p>
+    <div class="row">
+        <div class="col-md-6">
+            <b>Choisir mon adresse de livraison</b>
+            {% set formHtml %}
+                {{ form(form) }}
+            {% endset %}
+            <!-- {{  dump(formHtml|raw) }} // using raw this way is safe since formHtml has "<" and ">" escaped (probably done when twig get the variables from Symfony) -->
+            {{ formHtml|replace({'[br]': '<br/>'})|raw }}
+            <b>Choisir mon transporteur</b>
+        </div>
+        <div class="col-md-6">
+            <b>Récapitulatif de ma commande</b>
+            <b>Bouton pour payer</b>
+        </div>
+    </div>
+{% endblock %}

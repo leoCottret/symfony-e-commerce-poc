@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classe\Cart;
 use App\Entity\Address;
 use App\Form\AddressType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,7 +32,7 @@ class AccountAddressController extends AbstractController
     /**
      * @Route("/account/add-address", name="account_address_add")
      */
-    public function add(Request $request): Response
+    public function add(Request $request, Cart $cart): Response
     {
         $address = new Address();
         $form = $this->createForm(AddressType::class, $address);
@@ -42,7 +43,12 @@ class AccountAddressController extends AbstractController
             $address->setUser($this->getUser());
             $this->em->persist($address);
             $this->em->flush();
-            return $this->redirectToRoute('account_address');       
+            // if user has products in basket, redirect him to order page
+            if ($cart->get()) {
+                return $this->redirectToRoute('order');
+            } else {
+                return $this->redirectToRoute('account_address');      
+            } 
         }
 
         // TODO to have complete country name https://stackoverflow.com/questions/50280838/symfony-3-4-how-can-i-get-full-country-name-in-twig

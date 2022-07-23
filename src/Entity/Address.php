@@ -192,4 +192,10 @@ class Address
 
         return $this;
     }
+
+    // used in order form
+    public function __toString()
+    {
+        return $this->getName().'[br]'.$this->getAddress().'[br]'.$this->getPostal().'[br]'.$this->getCity();
+    }
 }
