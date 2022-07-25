@@ -3,18 +3,21 @@
 {% block title %}Valider ma commande - {{ brand_name }}{% endblock %}
 
 {% block content %}
-    <h2>Je passe ma commande</h2>
+    <h2>Ma commande</h2>
     <p>Choisissez vos préférences avant de passer votre commande sur {{ brand_name }}</p>
     <div class="row">
         <div class="col-md-6">
             {% set formHtml %}
-                {{ form(form) }}
+                {{ form_start(form, {action:path('order_summary')}) }}
+                    {{ form_label(form.addresses, 'Adresse de livraison')}}
+                    <a href="{{ path('account_address_add') }}">Ajouter une nouvelle adresse</a>
+                {{ form_end(form) }}
             {% endset %}
             <!-- {{  dump(formHtml|raw) }} // using raw this way is safe since formHtml has "<" and ">" escaped (probably done when twig get the variables from Symfony) -->
             {{ formHtml|replace({'[br]': '<br/>'})|raw }}
         </div>
         <div class="col-md-6">
-            <b>Récapitulatif de ma commande</b>
+            <b>Ma commande</b>
             <div class="order-summary mt-3">
                 {% for choice in cart %}
                     <div class="row mt-1">
