@@ -7,17 +7,30 @@
     <p>Choisissez vos préférences avant de passer votre commande sur {{ brand_name }}</p>
     <div class="row">
         <div class="col-md-6">
-            <b>Choisir mon adresse de livraison</b>
             {% set formHtml %}
                 {{ form(form) }}
             {% endset %}
             <!-- {{  dump(formHtml|raw) }} // using raw this way is safe since formHtml has "<" and ">" escaped (probably done when twig get the variables from Symfony) -->
             {{ formHtml|replace({'[br]': '<br/>'})|raw }}
-            <b>Choisir mon transporteur</b>
         </div>
         <div class="col-md-6">
             <b>Récapitulatif de ma commande</b>
-            <b>Bouton pour payer</b>
+            <div class="order-summary mt-3">
+                {% for choice in cart %}
+                    <div class="row mt-1">
+                        <div class="col-2">
+                            <img src="/uploads/{{ choice.product.illustration }}" alt="{{ choice.product.name }}" class="border" height="75px">
+                        </div>
+                        <div class="col-8 my-auto text-center">
+                            {{ choice.product.name }} <br>
+                            <small>{{ choice.product.subtitle }}</small>
+                        </div>
+                        <div class="col-2 my-auto">
+                            x {{ choice.quantity }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}
