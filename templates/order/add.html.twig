@@ -51,7 +51,7 @@
             <strong>Total : </strong> {{ ((total / 100)+carrier.price)|number_format(2) }} €
             <br>
 
-            <a href="" class="btn btn-primary mt-3">Payer</a>
+            <a href="{{ path('stripe_create_session') }}" class="btn btn-primary mt-3">Payer</a>
         </div>
     </div>
 {% endblock %}

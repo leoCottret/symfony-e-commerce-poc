@@ -84,7 +84,7 @@ class OrderController extends AbstractController
                     ->setQuantity($choice['quantity'])
                     ->setPrice($choice['product']->getPrice())
                     ->setTotal($choice['product']->getPrice() * $choice['quantity']);
-                    $this->em->persist($orderDetails);
+                $this->em->persist($orderDetails);
             }
 
             $this->em->flush();
