@@ -72,7 +72,8 @@ class OrderController extends AbstractController
                 ->setCarrierName($carrier->getName())
                 ->setCarrierPrice($carrier->getPrice())
                 ->setDelivery($delivery_content)
-                ->setIsPaid(false);
+                ->setIsPaid(false)
+                ->setReference((new DateTimeImmutable())->format('dmY').'-'.uniqid());
 
             $this->em->persist($order);
 
@@ -92,7 +93,8 @@ class OrderController extends AbstractController
             return $this->render('order/add.html.twig', [
                 'cart' => $cart->getFull(),
                 'carrier' => $carrier,
-                'delivery' => $delivery_content
+                'delivery' => $delivery_content,
+                'reference' => $order->getReference()
             ]);
         }
 
