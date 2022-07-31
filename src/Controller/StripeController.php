@@ -29,7 +29,7 @@ class StripeController extends AbstractController
         $products_for_stripe = [];
 
         // if for some reason, the order doesn't exist anymore, redirect to order route to generate a new one
-        if (!$order) {
+        if (!$order || $order->getUser() != $this->getUser()) {
             return $this->redirectToRoute('order');
         }
 
@@ -71,9 +71,12 @@ class StripeController extends AbstractController
                 'card',
             ],
             'mode' => 'payment',
-            'success_url' => $YOUR_DOMAIN . '/success.html',
-            'cancel_url' => $YOUR_DOMAIN . '/cancel.html',
+            'success_url' => $YOUR_DOMAIN . '/order/success/{CHECKOUT_SESSION_ID}',
+            'cancel_url' => $YOUR_DOMAIN . '/order/error/{CHECKOUT_SESSION_ID}',
         ]);
+
+        $order->setStripeSessionId($checkout_session->id);
+        $em->flush();
         
         return $this->redirect($checkout_session->url);
     }
