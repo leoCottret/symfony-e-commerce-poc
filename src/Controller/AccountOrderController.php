@@ -34,9 +34,8 @@ class AccountOrderController extends AbstractController
     /**
      * @Route("/account/order/{reference}", name="account_order_show")
      */
-    public function show($reference): Response
+    public function show(string $reference): Response
     {
-        // we want to display only
         $order = $this->em->getRepository(Order::class)->findOneByReference($reference);
 
         if (!$order || $order->getUser() != $this->getUser()) {
