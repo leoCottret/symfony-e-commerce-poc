@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Classe\Cart;
+use App\Classe\Mail;
 use App\Entity\Order;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,6 +39,10 @@ class OrderSuccessController extends AbstractController
             $order->setIsPaid(true);
             $this->em->flush();
             // send email to client to validate order
+            $mail = new Mail();
+            $user = $this->getUser();
+            $content = "Bonjour ".$user->getFirstname()."<br/>Merci pour votre commande. Lorem ipsum...";
+            $mail->send($this->getParameter('mailjet_api_key'), $user->getEmail(), $user->getFirstname(), 'Votre commande Le Monde du Chocolat est bien validée.', $content);
         }
 
         // display order informations to user

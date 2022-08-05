@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Classe\Mail;
 use App\Entity\User;
 use App\Form\RegisterType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,6 +27,7 @@ class RegisterController extends AbstractController
      */
     public function index(Request $request, UserPasswordHasherInterface $hasher): Response
     {
+        $notification = null;
 
         $user = new User();
         $form = $this->createForm(RegisterType::class, $user);
@@ -41,17 +43,35 @@ class RegisterController extends AbstractController
 
             $user = $form->getData();
 
-            // hash user password
-            $password = $hasher->hashPassword($user, $user->getPassword());
-            // replace clear text password with hashed one before user saving
-            $user->setPassword($password);
-            
-            $this->em->persist($user);
-            $this->em->flush();
+            $search_email = $this->em->getRepository(User::class)->findOneByEmail($user->getEmail());
+
+            if (!$search_email) {
+                $notification = "Inscription réussie. Vous pouvez dès à présent vous connecter à votre compte.";
+                $notificationType = "info";
+
+                // hash user password
+                $password = $hasher->hashPassword($user, $user->getPassword());
+                // replace clear text password with hashed one before user saving
+                $user->setPassword($password);
+                
+                $this->em->persist($user);
+                $this->em->flush();
+    
+                $mail = new Mail();
+                $content = "Bonjour ".$user->getFirstname()."<br/>Bienvenue au paradis des plaisirs. Lorem ipsum...";
+                $mail->send($this->getParameter('mailjet_api_key'), $user->getEmail(), $user->getFirstname(), 'Bienvenue sur Le Monde du Chocolat', $content);
+            // user already exists
+            } else {
+                $notification = "Cet email est déjà utilisé par un autre utilisateur";
+                $notificationType = "danger";
+
+            }
         }
 
         return $this->render('register/index.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'notification' => $notification,
+            'notificationType' => $notificationType
         ]);
     }
 }
