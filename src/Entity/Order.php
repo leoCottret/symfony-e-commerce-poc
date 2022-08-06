@@ -50,14 +50,9 @@ class Order
     private $delivery;
 
     /**
-     * @ORM\OneToMany(targetEntity=OrderDetails::class, mappedBy="myOrder")
+     * @ORM\OneToMany(targetEntity=OrderDetails::class, mappedBy="myOrder", cascade={"persist"}, orphanRemoval=true)
      */
     private $orderDetails;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isPaid;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -68,6 +63,15 @@ class Order
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $stripeSessionId;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $state;
+    // 0 not confirmed
+    // 1 paid
+    // is being prepared
+    // is being delivered
 
     public function __construct()
     {
@@ -159,6 +163,7 @@ class Order
 
     public function removeOrderDetail(OrderDetails $orderDetail): self
     {
+        dd('test');
         if ($this->orderDetails->removeElement($orderDetail)) {
             // set the owning side to null (unless already changed)
             if ($orderDetail->getMyOrder() === $this) {
@@ -211,6 +216,18 @@ class Order
     public function setStripeSessionId(?string $stripeSessionId): self
     {
         $this->stripeSessionId = $stripeSessionId;
+
+        return $this;
+    }
+
+    public function getState(): ?int
+    {
+        return $this->state;
+    }
+
+    public function setState(int $state): self
+    {
+        $this->state = $state;
 
         return $this;
     }

@@ -72,7 +72,7 @@ class OrderController extends AbstractController
                 ->setCarrierName($carrier->getName())
                 ->setCarrierPrice($carrier->getPrice())
                 ->setDelivery($delivery_content)
-                ->setIsPaid(false)
+                ->setState(0)
                 ->setReference((new DateTimeImmutable())->format('dmY').'-'.uniqid());
 
             $this->em->persist($order);
