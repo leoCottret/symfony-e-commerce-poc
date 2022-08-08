@@ -25,7 +25,8 @@ public function __construct(EntityManagerInterface $em)
      */
     public function show($slug): Response
     {
-        $product = $this->em->getRepository(Product::class)->findOneBySlug($slug);
+        $product = $this->em->getRepository(Product::class)->findOneBySlug($slug);       
+        $products = $this->em->getRepository(Product::class)->findByIsBest(true);
 
         // if product doesn't exist, redirect to products
         if (!$product) {
@@ -33,7 +34,8 @@ public function __construct(EntityManagerInterface $em)
         }
     
         return $this->render('product/show.html.twig', [
-            'product' => $product
+            'product' => $product,
+            'products' => $products
         ]);
     }
 
