@@ -35,6 +35,7 @@ class RegisterController extends AbstractController
         // handle form request
         $form->handleRequest($request);
 
+        $notificationType = "";
         // if form is valid
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -44,6 +45,7 @@ class RegisterController extends AbstractController
             $user = $form->getData();
 
             $search_email = $this->em->getRepository(User::class)->findOneByEmail($user->getEmail());
+
 
             if (!$search_email) {
                 $notification = "Inscription réussie. Vous pouvez dès à présent vous connecter à votre compte.";
